@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:amamini_client/features/domain/repository/user_local_repository.dart';
+import 'package:bloom/domain/repository/user_local_repository.dart';
 import 'package:dio/dio.dart';
 
 const _baseHeaders = {

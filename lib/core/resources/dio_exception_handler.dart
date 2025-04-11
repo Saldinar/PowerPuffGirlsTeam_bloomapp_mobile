@@ -1,5 +1,5 @@
-import 'package:amamini_client/core/resources/dio_failure.dart';
-import 'package:amamini_client/generated/l10n.dart';
+import 'package:bloom/core/resources/dio_failure.dart';
+import 'package:bloom/generated/l10n.dart';
 import 'package:dio/dio.dart';
 
 class ErrorHandler implements Exception {

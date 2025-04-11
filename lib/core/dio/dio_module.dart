@@ -1,6 +1,6 @@
-import 'package:amamini_client/core/constants/network_constants.dart';
-import 'package:amamini_client/core/dio/api_interceptor.dart';
-import 'package:amamini_client/features/domain/repository/user_local_repository.dart';
+import 'package:bloom/core/constants/network_constants.dart';
+import 'package:bloom/core/dio/api_interceptor.dart';
+import 'package:bloom/domain/repository/user_local_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
