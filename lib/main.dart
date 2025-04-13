@@ -19,7 +19,7 @@ void main() async {
 void _initLogger() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen(
-        (record) {
+    (record) {
       final loggerName = record.loggerName;
       final levelName = record.level.name;
       final message = record.message;

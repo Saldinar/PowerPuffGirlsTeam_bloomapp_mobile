@@ -72,7 +72,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/fonts/
-    - assets/images/
+    - assets/images/onboarding
     - assets/svg/
 flutter_intl:
   enabled: true
