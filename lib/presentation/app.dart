@@ -2,7 +2,7 @@ import 'package:bloom/config/navigation/app_route_base.dart';
 import 'package:bloom/config/theme/theme.dart';
 import 'package:bloom/core/di/inject.dart';
 import 'package:bloom/generated/l10n.dart';
-import 'package:bloom/presentation/bloc/auth/auth_bloc.dart';
+import 'package:bloom/presentation/bloc/register/register_bloc.dart';
 import 'package:bloom/presentation/bloc/theme_cubit/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,11 +22,12 @@ class _BloomAppState extends State<BloomApp> {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
+
     return MultiBlocProvider(
       providers: [
         /// Add all Bloc Providers here
         BlocProvider(
-          create: (context) => AuthBloc(inject(), inject()),
+          create: (context) => RegisterBloc(inject(), inject()),
         ),
         BlocProvider(create: (context) => ThemeCubit(inject())),
       ],

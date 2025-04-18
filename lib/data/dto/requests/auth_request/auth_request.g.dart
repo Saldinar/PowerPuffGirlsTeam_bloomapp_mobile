@@ -1,19 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'register_request.dart';
+part of 'auth_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RegisterRequest _$RegisterRequestFromJson(Map<String, dynamic> json) =>
-    RegisterRequest(
-      username: json['username'] as String,
-      email: json['email'] as String,
-      password: json['password'] as String,
+AuthRequest _$AuthRequestFromJson(Map<String, dynamic> json) => AuthRequest(
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      username: json['username'] as String?,
     );
 
-Map<String, dynamic> _$RegisterRequestToJson(RegisterRequest instance) =>
+Map<String, dynamic> _$AuthRequestToJson(AuthRequest instance) =>
     <String, dynamic>{
       'username': instance.username,
       'email': instance.email,

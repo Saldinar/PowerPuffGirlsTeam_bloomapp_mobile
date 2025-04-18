@@ -1,4 +1,3 @@
-import 'package:bloom/domain/entity/auth/auth_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'register_response.g.dart';
@@ -10,14 +9,16 @@ class RegisterResponse {
   final String userName;
   final int customerId;
 
-  RegisterResponse({
+  // ignore: sort_constructors_first
+  const RegisterResponse({
     required this.message,
-    this.token,
     required this.userName,
     required this.customerId,
+    this.token,
   });
 
-  factory RegisterResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterResponseFromJson(json);
+  // ignore: sort_constructors_first
+  factory RegisterResponse.fromJson(Map<String, dynamic> json) => _$RegisterResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$RegisterResponseToJson(this);
 }

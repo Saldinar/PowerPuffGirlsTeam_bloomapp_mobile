@@ -1,4 +1,4 @@
-const baseUrl = 'http://34.123.174.36';
+const baseUrl = 'http://127.0.0.1';
 
 const requestTimeOut = Duration(seconds: 15);
 const connectTimeOut = Duration(seconds: 30);

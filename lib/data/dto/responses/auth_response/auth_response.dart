@@ -4,7 +4,7 @@ part 'auth_response.g.dart';
 
 @JsonSerializable()
 class AuthResponse {
-  final String? username;
+  final String username;
   @JsonKey(name: 'customer_id')
   final int customerId;
   final String token;
@@ -12,7 +12,7 @@ class AuthResponse {
   const AuthResponse({
     required this.customerId,
     required this.token,
-    this.username,
+    required this.username,
   });
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {

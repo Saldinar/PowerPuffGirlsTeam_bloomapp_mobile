@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserLocalDataSource {
   final FlutterSecureStorage _secureStorage;
   final SharedPreferences _sharedPreferences;
+
   const UserLocalDataSource(this._secureStorage, this._sharedPreferences);
 
   Future<void> saveToken(String authToken) async {

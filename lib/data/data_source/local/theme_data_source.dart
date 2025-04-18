@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ThemeLocalDataSource {
   Future<bool> getTheme();
+
   Future<void> setTheme(bool isDark);
 }
 

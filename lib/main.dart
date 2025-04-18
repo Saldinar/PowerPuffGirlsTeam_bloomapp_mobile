@@ -8,11 +8,15 @@ import 'package:logging/logging.dart';
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   await initDi();
+
   if (kDebugMode) {
     _initLogger();
   }
+
   runApp(const BloomApp());
 }
 
@@ -30,4 +34,3 @@ void _initLogger() {
     },
   );
 }
-

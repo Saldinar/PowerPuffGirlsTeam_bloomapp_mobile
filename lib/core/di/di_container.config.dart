@@ -55,11 +55,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => dioModule.getUnauthorizedDioClient(),
       instanceName: 'Unauthorized',
     );
+    gh.factory<_i969.AuthService>(
+        () => _i969.AuthService(gh<_i361.Dio>(instanceName: 'Unauthorized')));
+    gh.factory<_i614.AuthRepository>(
+        () => _i581.AuthRepositoryImpl(gh<_i969.AuthService>()));
     gh.factoryAsync<_i259.UserLocalDataSource>(
         () async => _i259.UserLocalDataSource(
               await getAsync<_i558.FlutterSecureStorage>(),
               gh<_i460.SharedPreferences>(),
             ));
+    gh.factory<_i759.RegisterUseCase>(
+        () => _i759.RegisterUseCase(gh<_i614.AuthRepository>()));
     gh.singleton<_i490.ThemeRepository>(() => _i6.ThemeRepositoryImpl(
         localDataSource: gh<_i981.ThemeLocalDataSource>()));
     gh.singletonAsync<_i121.UserLocalRepository>(() async =>
@@ -71,13 +77,6 @@ extension GetItInjectableX on _i174.GetIt {
         .getAuthorizedDioClient(await getAsync<_i121.UserLocalRepository>()));
     gh.singleton<_i301.ThemeUseCase>(
         () => _i301.ThemeUseCase(repository: gh<_i490.ThemeRepository>()));
-    gh.singletonAsync<_i969.AuthDataSource>(
-        () async => _i969.AuthDataSource(await getAsync<_i361.Dio>()));
-    gh.singletonAsync<_i614.AuthRepository>(() async =>
-        _i581.AuthRepositoryImpl(
-            dataSource: await getAsync<_i969.AuthDataSource>()));
-    gh.singletonAsync<_i759.AuthUseCase>(() async => _i759.AuthUseCase(
-        authRepository: await getAsync<_i614.AuthRepository>()));
     return this;
   }
 }

@@ -4,8 +4,7 @@ part 'auth_request.g.dart';
 
 @JsonSerializable()
 class AuthRequest {
-  @JsonKey(name: 'is_guest')
-  final bool? isGuest;
+
   final String? username;
   final String? email;
   final String? password;
@@ -13,7 +12,6 @@ class AuthRequest {
   const AuthRequest({
     this.email,
     this.password,
-    this.isGuest,
     this.username,
   });
 

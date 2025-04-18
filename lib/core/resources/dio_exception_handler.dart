@@ -1,4 +1,5 @@
-import 'package:bloom/core/resources/dio_failure.dart';
+import 'package:bloom/core/resources/dio_exception_handler.dart';
+import 'package:bloom/core/resources/dio_handled_exception.dart';
 import 'package:bloom/generated/l10n.dart';
 import 'package:dio/dio.dart';
 
@@ -11,10 +12,10 @@ class ErrorHandler implements Exception {
     }
   }
 
-  late Failure failure;
+  late HandledException failure;
 }
 
-Failure _handleError(DioException error) {
+HandledException _handleError(DioException error) {
   switch (error.type) {
     case DioExceptionType.connectionTimeout:
       return DataSource.connectionTimeout.getFailure();
@@ -34,7 +35,7 @@ Failure _handleError(DioException error) {
   }
 }
 
-Failure _handleBadResponse(DioException exception) {
+HandledException _handleBadResponse(DioException exception) {
   final code = exception.response?.statusCode ?? ResponseCode.DEFAULT;
   switch (code) {
     case ResponseCode.UNAUTHORIZED:
@@ -48,11 +49,11 @@ Failure _handleBadResponse(DioException exception) {
 
     default:
       final message = _extractErrorMessage(exception.response?.data ?? exception.message.toString());
-      return Failure(code, message);
+      return HandledException(code, message);
   }
 }
 
-Failure _handleDefaultError(DioException error) {
+HandledException _handleDefaultError(DioException error) {
   if (error.response?.statusCode == ResponseCode.NO_INTERNET_CONNECTION) {
     return DataSource.noInternetConnection.getFailure();
   } else {
@@ -80,75 +81,75 @@ String _extractErrorMessage(dynamic data) {
 }
 
 extension DataSourceExtension on DataSource {
-  Failure getFailure() {
+  HandledException getFailure() {
     switch (this) {
       case DataSource.success:
-        return Failure(
+        return HandledException(
           ResponseCode.SUCCESS,
           S.current.success,
         );
       case DataSource.noContent:
-        return Failure(
+        return HandledException(
           ResponseCode.NO_CONTENT,
           S.current.noContent,
         );
       case DataSource.badRequest:
-        return Failure(
+        return HandledException(
           ResponseCode.BAD_REQUEST,
           S.current.badRequestError,
         );
       case DataSource.forbidden:
-        return Failure(
+        return HandledException(
           ResponseCode.FORBIDDEN,
           S.current.forbiddenError,
         );
       case DataSource.unauthorized:
-        return Failure(
+        return HandledException(
           ResponseCode.UNAUTHORIZED,
           S.current.unauthorizedError,
         );
       case DataSource.notFound:
-        return Failure(
+        return HandledException(
           ResponseCode.NOT_FOUND,
           S.current.notFoundError,
         );
       case DataSource.internalServerError:
-        return Failure(
+        return HandledException(
           ResponseCode.INTERNAL_SERVER_ERROR,
           S.current.internalServerError,
         );
       case DataSource.connectionTimeout:
-        return Failure(
+        return HandledException(
           ResponseCode.CONNECT_TIMEOUT,
           S.current.timeoutError,
         );
       case DataSource.cancel:
-        return Failure(
+        return HandledException(
           ResponseCode.CANCEL,
           S.current.noiInternetError,
         );
       case DataSource.receiveTimeout:
-        return Failure(
+        return HandledException(
           ResponseCode.RECEIVE_TIMEOUT,
           S.current.timeoutError,
         );
       case DataSource.sendTimeout:
-        return Failure(
+        return HandledException(
           ResponseCode.SEND_TIMEOUT,
           S.current.timeoutError,
         );
       case DataSource.cacheError:
-        return Failure(
+        return HandledException(
           ResponseCode.CACHE_ERROR,
           S.current.cacheError,
         );
       case DataSource.noInternetConnection:
-        return Failure(
+        return HandledException(
           ResponseCode.NO_INTERNET_CONNECTION,
           S.current.noiInternetError,
         );
       case DataSource.defaultError:
-        return Failure(
+        return HandledException(
           ResponseCode.DEFAULT,
           S.current.defaultError,
         );

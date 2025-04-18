@@ -1,13 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-class AuthRequestEntity extends Equatable {
-  AuthRequestEntity({
+class RegisterRequestEntity extends Equatable {
+  RegisterRequestEntity({
     required this.email,
     required this.password,
-    required this.userName,
   });
 
-  final String userName;
   final String email;
   final String password;
 
@@ -26,5 +24,5 @@ class AuthRequestEntity extends Equatable {
   // }
 
   @override
-  List<Object?> get props => [userName, email, password];
+  List<Object?> get props => [email, password];
 }

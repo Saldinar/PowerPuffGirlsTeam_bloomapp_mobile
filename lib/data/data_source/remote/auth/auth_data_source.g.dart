@@ -8,8 +8,8 @@ part of 'auth_data_source.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
-class _AuthDataSource implements AuthDataSource {
-  _AuthDataSource(
+class _AuthService implements AuthService {
+  _AuthService(
     this._dio, {
     this.baseUrl,
     this.errorLogger,
@@ -22,20 +22,21 @@ class _AuthDataSource implements AuthDataSource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<AuthResponse>> authCustomer(AuthRequest request) async {
+  Future<HttpResponse<RegisterResponse>> register(
+      RegisterRequest request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _options = _setStreamType<HttpResponse<AuthResponse>>(Options(
+    final _options = _setStreamType<HttpResponse<RegisterResponse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/api-frontend/Authenticate/GetToken',
+          '/api/users/register/',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -45,9 +46,9 @@ class _AuthDataSource implements AuthDataSource {
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthResponse _value;
+    late RegisterResponse _value;
     try {
-      _value = AuthResponse.fromJson(_result.data!);
+      _value = RegisterResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

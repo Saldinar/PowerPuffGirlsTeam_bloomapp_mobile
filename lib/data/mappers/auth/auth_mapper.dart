@@ -1,37 +1,52 @@
-import 'package:bloom/data/model/requests/auth_request/auth_request.dart';
-import 'package:bloom/data/model/responses/auth_response/auth_response.dart';
-import 'package:bloom/data/model/requests/register_request/register_request.dart';
+import 'package:bloom/data/dto/requests/auth_request/auth_request.dart';
+import 'package:bloom/data/dto/requests/register_request/register_request.dart';
+import 'package:bloom/data/dto/responses/auth_response/auth_response.dart';
+import 'package:bloom/data/dto/responses/register_response/register_response.dart';
 import 'package:bloom/domain/entity/auth/auth_request_entity.dart';
-import 'package:bloom/domain/entity/auth/auth_entity.dart';
-import 'package:bloom/domain/entity/auth/auth_request_entity.dart';
+import 'package:bloom/domain/entity/auth/auth_response_entity.dart';
+import 'package:bloom/domain/entity/register/register_request_entity.dart';
+import 'package:bloom/domain/entity/register/register_response_entity.dart';
 
-extension AuthResponseMapper on AuthResponse {
-  AuthEntity toEntity() {
-    return AuthEntity(
-      userName: username ?? '',
-      customerId: customerId,
-      token: token,
-    );
-  }
-}
+// extension AuthResponseMapperExt on AuthResponse {
+//   AuthResponseEntity toEntity() {
+//     return AuthResponseEntity(
+//       username: username,
+//       customerId: customerId,
+//       token: token,
+//     );
+//   }
+// }
+//
+// extension AuthRequestMapperExt on RegisterRequestEntity {
+//   AuthRequest toEntity() {
+//     return AuthRequest(
+//       email: email,
+//       password: password,
+//       username: userName,
+//     );
+//   }
+// }
 
-extension AuthRequestMapper on AuthRequestEntity {
-  AuthRequest toRequest() {
-    return AuthRequest(
+extension RegisterRequestEntityToRequest on RegisterRequestEntity {
+  RegisterRequest toRequest() {
+    return RegisterRequest(
       email: email,
       password: password,
-      isGuest: isGuest,
-      username: userName ?? '',
     );
   }
 }
 
-extension AuthRequestEntityMapper on AuthRequestEntity {
-  RegisterRequests toRegisterRequest() {
-    return RegisterRequests(
-      username: userName ?? '', // потому что userName у тебя nullable
-      email: email ?? '',
-      password: password ?? '',
+
+extension RegisterRequestMapperExt on RegisterResponse {
+  RegisterResponseEntity toEntity() {
+    return RegisterResponseEntity(
+      // email: email,
+      // password: password,
+      username: userName,
+      customerId: 1,
+      token: '',
     );
   }
 }
+
+
