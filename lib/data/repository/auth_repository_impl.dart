@@ -3,6 +3,8 @@ import 'package:bloom/core/resources/dio_exception_handler.dart';
 import 'package:bloom/core/resources/dio_failure.dart';
 import 'package:bloom/data/data_source/remote/auth/auth_data_source.dart';
 import 'package:bloom/data/mappers/auth/auth_mapper.dart';
+import 'package:bloom/data/model/requests/register_request/register_request.dart';
+import 'package:bloom/data/model/responses/register_response/register_response.dart';
 import 'package:bloom/domain/entity/auth/auth_entity.dart';
 import 'package:bloom/domain/entity/auth/auth_request_entity.dart';
 import 'package:bloom/domain/repository/auth_repository.dart';
@@ -26,7 +28,8 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(DataSource.noInternetConnection.getFailure());
     }
     try {
-      final httpResponse = await _dataSource.authCustomer(request.toRequest());
+      final httpResponse = await _dataSource
+          .registerUser(request.toRequest() as RegisterRequest);
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return Right(httpResponse.data.toEntity());
       } else {
@@ -44,5 +47,15 @@ class AuthRepositoryImpl implements AuthRepository {
       final errorHandler = ErrorHandler.handle(error);
       return Left(errorHandler.failure);
     }
+  }
+}
+
+extension RegisterResponseMapper on RegisterResponse {
+  AuthEntity toEntity() {
+    return AuthEntity(
+      userName: userName,
+      customerId: customerId,
+      token: token ?? '',
+    );
   }
 }
