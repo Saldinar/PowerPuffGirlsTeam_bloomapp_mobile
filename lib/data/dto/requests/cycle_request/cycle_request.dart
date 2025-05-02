@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part '../cycle_request/cycle_request.g.dart';
+part 'cycle_request.g.dart';
 
 @JsonSerializable()
 class CycleRequest {
@@ -13,6 +13,7 @@ class CycleRequest {
     required this.lastPeriodDate,
     required this.cycleLength,
     required this.periodLength,
+    required this.age,
   });
 
   factory CycleRequest.fromJson(Map<String, dynamic> json) =>

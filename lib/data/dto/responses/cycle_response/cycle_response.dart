@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part '../cycle_response/cycle_response.g.dart';
+part 'cycle_response.g.dart';
 
 @JsonSerializable()
 class Profile {
