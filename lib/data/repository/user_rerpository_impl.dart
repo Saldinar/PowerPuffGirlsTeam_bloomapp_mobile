@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:bloom/core/resources/dio_exception_handler.dart';
 import 'package:bloom/core/resources/dio_handled_exception.dart';
 import 'package:bloom/data/data_source/remote/cycle_data/cycle_data_source.dart';
-import 'package:bloom/data/mappers/user/user_mapper.dart';
 import 'package:bloom/domain/entity/user/user_request_entity.dart';
-import 'package:bloom/domain/entity/user/user_response_entity.dart';
 import 'package:bloom/domain/repository/user_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -21,9 +19,7 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<HandledException, UserRequestEntity>> request(
       UserRequestEntity request) async {
     try {
-      final httpResponse = await _service.getCurrentUser(
-        'Bearer token',
-      );
+      final httpResponse = await _service.getCurrentUser();
 
       if (httpResponse.response.statusCode == HttpStatus.ok) {
         return Right(httpResponse.data.toEntity());

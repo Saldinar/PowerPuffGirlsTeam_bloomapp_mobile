@@ -10,15 +10,15 @@ part 'cycle_data_source.g.dart';
 @injectable
 abstract class UserService {
   @factoryMethod
-  factory UserService(@Named('Authorized') Dio dio) = _UserService;
+  factory UserService(Dio dio) = _UserService;
 
   @GET('/api/user/me/')
   Future<HttpResponse<UserResponse>> getCurrentUser(
-    @Header('Authorization') String token,
+    // @Header('Authorization') String token,
   );
 
   @GET('/api/user/phases/')
   Future<HttpResponse<PhasesResponse>> getPhases(
-    @Header('Authorization') String token,
+    // @Header('Authorization') String token,
   );
 }
