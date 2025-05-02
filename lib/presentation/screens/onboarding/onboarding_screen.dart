@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ApplicationColors {
-  static const Color primary = Color(0xFF407BFF);
+  static const Color primary = Color(0xFF445CAA);
   static const Color white = Colors.white;
   static const Color textPrimary = Color(0xFF111827);
   static const Color textSecondary = Color(0xFF6B7280);
@@ -43,19 +43,25 @@ class AppTheme {
     return ThemeData(
       primaryColor: ApplicationColors.primary,
       fontFamily: 'Inter',
+      scaffoldBackgroundColor: ApplicationColors.white,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: ApplicationColors.primary,
           foregroundColor: ApplicationColors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
       ),
       textTheme: const TextTheme(
         headlineLarge: AppTextStyles.headlineLarge,
+        headlineMedium: AppTextStyles.headlineMedium,
         bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.bodyMedium,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: ApplicationColors.white,
+        foregroundColor: ApplicationColors.textPrimary,
+        elevation: 0,
       ),
     );
   }
@@ -84,17 +90,14 @@ class PrimaryButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: ApplicationColors.primary,
         foregroundColor: ApplicationColors.white,
-        minimumSize:
-            Size(isFullWidth ? double.infinity : (width ?? 120), height),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        minimumSize: Size(
+          isFullWidth ? double.infinity : (width ?? 120),
+          height,
         ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
-      child: Text(
-        text,
-        style: AppTextStyles.buttonText,
-      ),
+      child: Text(text, style: AppTextStyles.buttonText),
     );
   }
 }
@@ -151,14 +154,9 @@ class ActionButton extends StatelessWidget {
         minimumSize: Size(isFullWidth ? double.infinity : 200, 56),
         backgroundColor: ApplicationColors.primary,
         foregroundColor: ApplicationColors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
-      child: Text(
-        text,
-        style: AppTextStyles.buttonText,
-      ),
+      child: Text(text, style: AppTextStyles.buttonText),
     );
   }
 }
@@ -204,21 +202,25 @@ class DotIndicator extends StatelessWidget {
 }
 
 class CycleTrackerApp extends StatelessWidget {
-  const CycleTrackerApp({super.key});
+  final VoidCallback? onOnboardingComplete;
+
+  const CycleTrackerApp({super.key, this.onOnboardingComplete});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cycle Tracker',
       theme: AppTheme.lightTheme,
-      home: const OnboardingScreen(),
+      home: OnboardingScreen(onComplete: onOnboardingComplete),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  final VoidCallback? onComplete;
+
+  const OnboardingScreen({super.key, this.onComplete});
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -262,19 +264,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _acceptTerms() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Terms Accepted'),
-        content: const Text('Redirecting to main app...'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
+    if (widget.onComplete != null) {
+      widget.onComplete!();
+    }
   }
 
   @override
@@ -332,10 +324,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               bottom: 100,
               left: 0,
               right: 0,
-              child: DotIndicator(
-                currentIndex: _currentSlide,
-                count: 3,
-              ),
+              child: DotIndicator(currentIndex: _currentSlide, count: 3),
             ),
         ],
       ),
@@ -367,9 +356,10 @@ class OnboardingSlide extends StatelessWidget {
       children: [
         const SizedBox(height: 60),
         SizedBox(
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: double.infinity,
-            child: image),
+          height: MediaQuery.of(context).size.height * 0.4,
+          width: double.infinity,
+          child: image,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Column(
@@ -395,16 +385,10 @@ class OnboardingSlide extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (showBackButton) ...[
-                IconCircleButton(
-                  icon: Icons.arrow_back,
-                  onPressed: onBack!,
-                ),
+                IconCircleButton(icon: Icons.arrow_back, onPressed: onBack!),
                 const SizedBox(width: 16),
               ],
-              IconCircleButton(
-                icon: Icons.arrow_forward,
-                onPressed: onNext,
-              ),
+              IconCircleButton(icon: Icons.arrow_forward, onPressed: onNext),
             ],
           ),
         ),
@@ -443,11 +427,6 @@ class TermsOfUseScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'This application is designed to help you track your menstrual cycle and associated symptoms. The information provided by this application is for informational purposes only and is not intended to substitute professional medical advice, diagnosis, or treatment.',
-              style: AppTextStyles.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-            Text(
               'By using this application, you acknowledge that:',
               style: AppTextStyles.bodyMedium,
             ),
@@ -461,17 +440,6 @@ class TermsOfUseScreen extends StatelessWidget {
                     '• The predictions and calculations are based on the data you provide and general statistical models.',
                     style: AppTextStyles.bodyMedium,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '• The accuracy of predictions depends on the regularity of your cycle and the consistency of your data entry.',
-                    style: AppTextStyles.bodyMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    '• This application should not be used as a contraceptive method or to diagnose medical conditions.',
-                    style: AppTextStyles.bodyMedium,
-                  ),
-                  const SizedBox(height: 8),
                   Text(
                     '• You should consult with a healthcare professional for medical advice related to your menstrual health.',
                     style: AppTextStyles.bodyMedium,
@@ -481,19 +449,11 @@ class TermsOfUseScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'We strive to provide a helpful tool for tracking and understanding your menstrual cycle, but we make no guarantees regarding the accuracy of predictions or the suitability of this application for your specific needs.',
-              style: AppTextStyles.bodyMedium,
-            ),
-            const SizedBox(height: 16),
-            Text(
               'By clicking "I Accept" below, you agree to these terms and conditions.',
               style: AppTextStyles.bodyMedium,
             ),
             const SizedBox(height: 32),
-            ActionButton(
-              onAction: onAccept,
-              text: 'I Accept',
-            ),
+            ActionButton(onAction: onAccept, text: 'I Accept'),
             const SizedBox(height: 32),
           ],
         ),

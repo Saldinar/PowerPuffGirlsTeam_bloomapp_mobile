@@ -18,6 +18,8 @@ import '../../data/data_source/local/local_module.dart' as _i97;
 import '../../data/data_source/local/theme_data_source.dart' as _i981;
 import '../../data/data_source/local/user_local_data_source.dart' as _i259;
 import '../../data/data_source/remote/auth/auth_data_source.dart' as _i969;
+import '../../data/data_source/remote/cycle_data/cycle_data_source.dart'
+    as _i314;
 import '../../data/repository/auth_repository_impl.dart' as _i581;
 import '../../data/repository/theme_repository_impl.dart' as _i6;
 import '../../data/repository/user_local_repository_impl.dart' as _i788;
@@ -64,6 +66,8 @@ extension GetItInjectableX on _i174.GetIt {
               await getAsync<_i558.FlutterSecureStorage>(),
               gh<_i460.SharedPreferences>(),
             ));
+    gh.factory<_i314.UserService>(
+        () => _i314.UserService(gh<_i361.Dio>(instanceName: 'Authorized')));
     gh.factory<_i759.RegisterUseCase>(
         () => _i759.RegisterUseCase(gh<_i614.AuthRepository>()));
     gh.singleton<_i490.ThemeRepository>(() => _i6.ThemeRepositoryImpl(

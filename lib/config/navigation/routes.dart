@@ -7,5 +7,5 @@ enum Routes {
   calendar,
   profile,
   cycleDetails,
+  account,
 }
-

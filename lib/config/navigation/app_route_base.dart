@@ -1,4 +1,5 @@
 import 'package:bloom/config/navigation/routes.dart';
+import 'package:bloom/presentation/screens/account/account_screen.dart';
 import 'package:bloom/presentation/screens/auth/auth_screen.dart';
 import 'package:bloom/presentation/screens/calendar/calendar_screen.dart';
 import 'package:bloom/presentation/screens/chatbot/chatbot_screen.dart';
@@ -60,6 +61,15 @@ final router = GoRouter(
               path: '/calendar',
               name: Routes.calendar.name,
               builder: (context, state) => const CalendarScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/account',
+              name: Routes.account.name,
+              builder: (context, state) => const AccountScreen(),
             ),
           ],
         ),
