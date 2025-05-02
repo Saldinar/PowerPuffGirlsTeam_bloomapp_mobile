@@ -14,18 +14,3 @@ class RegisterResponseEntity extends Equatable {
   @override
   List<Object?> get props => [username, customerId, token];
 }
-
-// class RegisterRequests extends Equatable {
-//   RegisterRequests({
-//     required this.username,
-//     required this.email,
-//     required this.password,
-//   });
-//
-//   final String username;
-//   final String email;
-//   final String password;
-//
-//   @override
-//   List<Object?> get props => [username, email, password];
-// }
