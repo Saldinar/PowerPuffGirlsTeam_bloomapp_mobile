@@ -2,6 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+class CycleDetailsScreens extends StatelessWidget {
+  const CycleDetailsScreens({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Period Tracker',
+      theme: AppTheme.lightTheme,
+      home: const AgeSelectionPage(),
+    );
+  }
+}
+
 class ApplicationColors {
   static const Color primary = Color(0xFF445CAA);
   static const Color white = Colors.white;
@@ -40,33 +53,31 @@ class AppTextStyles {
   );
 }
 
-class CycleDetailsScreens extends StatelessWidget {
-  const CycleDetailsScreens({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Period Tracker',
-      theme: ThemeData(
-        primaryColor: ApplicationColors.primary,
-        scaffoldBackgroundColor: ApplicationColors.white,
-        textTheme: const TextTheme(
-          headlineMedium: AppTextStyles.headlineMedium,
-          bodyMedium: AppTextStyles.bodyMedium,
-          labelLarge: AppTextStyles.buttonText,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: ApplicationColors.white,
-            backgroundColor: ApplicationColors.primary,
-            textStyle: AppTextStyles.buttonText,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
+class AppTheme {
+  static ThemeData get lightTheme {
+    return ThemeData(
+      primaryColor: ApplicationColors.primary,
+      fontFamily: 'Inter',
+      scaffoldBackgroundColor: ApplicationColors.white,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ApplicationColors.primary,
+          foregroundColor: ApplicationColors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
       ),
-      home: const AgeSelectionPage(),
+      textTheme: const TextTheme(
+        headlineLarge: AppTextStyles.headlineLarge,
+        headlineMedium: AppTextStyles.headlineMedium,
+        bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.bodyMedium,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: ApplicationColors.white,
+        foregroundColor: ApplicationColors.textPrimary,
+        elevation: 0,
+      ),
     );
   }
 }
@@ -148,8 +159,7 @@ class _AgeSelectionPageState extends State<AgeSelectionPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        LastPeriodPage(selectedAge: selectedAge),
+                    builder: (_) => LastPeriodPage(selectedAge: selectedAge),
                   ),
                 );
               },
@@ -275,8 +285,9 @@ class _LastPeriodPageState extends State<LastPeriodPage> {
                             children: List<Widget>.generate(12, (int index) {
                               return Center(
                                 child: Text(
-                                  DateFormat('MMMM')
-                                      .format(DateTime(2025, index + 1)),
+                                  DateFormat(
+                                    'MMMM',
+                                  ).format(DateTime(2025, index + 1)),
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               );
@@ -342,7 +353,7 @@ class _LastPeriodPageState extends State<LastPeriodPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CycleDurationPage(
+                    builder: (_) => CycleDurationPage(
                       selectedAge: widget.selectedAge,
                       selectedDate: selectedDate,
                     ),
@@ -442,7 +453,7 @@ class _CycleDurationPageState extends State<CycleDurationPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PeriodLengthPage(
+                    builder: (_) => PeriodLengthPage(
                       selectedAge: widget.selectedAge,
                       selectedDate: widget.selectedDate,
                       selectedCycleDuration: selectedCycleDuration,
@@ -541,7 +552,59 @@ class _PeriodLengthPageState extends State<PeriodLengthPage> {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFD4EDDA),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.check,
+                            color: Color(0xFF28A745),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Setup Complete!',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: ApplicationColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Your period tracking is now set up\nwith your preferences.',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 50),
+                          ),
+                          child: const Text('Go to Dashboard'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 50),
               ),
@@ -549,24 +612,6 @@ class _PeriodLengthPageState extends State<PeriodLengthPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard'), centerTitle: true),
-      body: Center(
-        child: Text(
-          'Welcome to your Period Tracker Dashboard!',
-          style: Theme.of(context).textTheme.headlineMedium,
-          textAlign: TextAlign.center,
-        ),
       ),
     );
   }

@@ -2,10 +2,8 @@ part of 'cycle_bloc.dart';
 
 sealed class CycleEvent {}
 
-final class RegisterUserEvent extends CycleEvent {
-  RegisterUserEvent({required this.request});
+final class FetchCycleDetails extends CycleEvent {
+  FetchCycleDetails({required this.request});
 
-  final RegisterRequestEntity request;
+  final UserRequestEntity request;
 }
-
-final class LogOutEvent extends CycleEvent {}

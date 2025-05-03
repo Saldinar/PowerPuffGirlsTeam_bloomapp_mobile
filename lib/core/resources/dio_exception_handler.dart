@@ -1,6 +1,6 @@
 import 'package:bloom/core/resources/dio_exception_handler.dart';
 import 'package:bloom/core/resources/dio_handled_exception.dart';
-import 'package:bloom/generated/l10n.dart';
+import 'package:bloom/domain/use_case/theme/generated/l10n.dart';
 import 'package:dio/dio.dart';
 
 class ErrorHandler implements Exception {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ChatScreen
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
@@ -12,6 +11,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
 
+  // Обработка отправки сообщения
   void _sendMessage(String messageText) {
     if (messageText.isNotEmpty) {
       setState(() {
@@ -25,6 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // Генерация ответа AI
   List<Map<String, dynamic>> _generateResponse(String prompt) {
     switch (prompt.toLowerCase()) {
       case 'which phase am i in? 🌸':
@@ -151,175 +152,179 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/bloomlogo.png',
-                  height: 40,
-                  width: 40,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.error, size: 40, color: Colors.red),
-                ),
-                IconButton(
-                  icon: Icon(Icons.settings, color: Colors.grey[500]),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  child: Image.asset(
-                    'assets/images/biggerlogo.png',
-                    height: 50,
-                    width: 50,
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'assets/images/bloomlogo.png',
+                    height: 40,
+                    width: 40,
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => const Icon(
                       Icons.error,
-                      size: 50,
+                      size: 40,
                       color: Colors.red,
                     ),
                   ),
-                ),
-                const SizedBox(height: 50),
-                const Text(
-                  'Welcome to Bloom AI 🌸',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Start chatting with Bloom AI now',
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                ),
-              ],
+                  IconButton(
+                    icon: Icon(Icons.settings, color: Colors.grey[500]),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Suggested prompts',
-                  style: TextStyle(fontSize: 14, color: Colors.grey[500]),
-                ),
-                const SizedBox(height: 8),
-                PromptCard(
-                  text: 'Which phase am I in? 🌸',
-                  onTap: () => _handlePrompt('Which phase am I in? 🌸'),
-                ),
-                PromptCard(
-                  text: 'Tips on nutrition? 🥗',
-                  onTap: () => _handlePrompt('Tips on nutrition? 🥗'),
-                ),
-                PromptCard(
-                  text: 'Struggling with PMS? 😔',
-                  onTap: () => _handlePrompt('Struggling with PMS? 😔'),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
+            Padding(
               padding: const EdgeInsets.all(16),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                final isUser = message['sender'] == 'user';
-                return Align(
-                  alignment:
-                      isUser ? Alignment.centerRight : Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isUser
-                          ? const Color(
-                              0xFF445CAA,
-                            ) // Фон для сообщений пользователя
-                          : const Color(0xFFF0F0F0),
-                      borderRadius: BorderRadius.circular(18).copyWith(
-                        bottomRight: isUser ? const Radius.circular(4) : null,
-                        bottomLeft: !isUser ? const Radius.circular(4) : null,
+              child: Column(
+                children: [
+                  // Замена изображения на заглушку
+                  CircleAvatar(
+                    radius: 50,
+                    child: Image.asset(
+                      'assets/images/biggerlogo.png',
+                      height: 50,
+                      width: 50,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.error,
+                        size: 50,
+                        color: Colors.red,
                       ),
                     ),
-                    child: isUser
-                        ? Text(
-                            message['content'] as String,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    'Welcome to Bloom AI 🌸',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Start chatting with Bloom AI now',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Suggested prompts',
+                    style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                  ),
+                  const SizedBox(height: 8),
+                  PromptCard(
+                    text: 'Which phase am I in? 🌸',
+                    onTap: () => _handlePrompt('Which phase am I in? 🌸'),
+                  ),
+                  PromptCard(
+                    text: 'Tips on nutrition? 🥗',
+                    onTap: () => _handlePrompt('Tips on nutrition? 🥗'),
+                  ),
+                  PromptCard(
+                    text: 'Struggling with PMS? 😔',
+                    onTap: () => _handlePrompt('Struggling with PMS? 😔'),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final message = _messages[index];
+                  final isUser = message['sender'] == 'user';
+                  return Align(
+                    alignment:
+                        isUser ? Alignment.centerRight : Alignment.centerLeft,
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isUser
+                            ? const Color(0xFF445CAA)
+                            : const Color(0xFFF0F0F0),
+                        borderRadius: BorderRadius.circular(18).copyWith(
+                          bottomRight: isUser ? const Radius.circular(4) : null,
+                          bottomLeft: !isUser ? const Radius.circular(4) : null,
+                        ),
+                      ),
+                      child: isUser
+                          ? Text(
+                              message['content'] as String,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            )
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: (message['content']
+                                      as List<Map<String, dynamic>>)
+                                  .map(
+                                    (segment) => Text(
+                                      segment['text'],
+                                      style: segment['style'],
+                                    ),
+                                  )
+                                  .toList(),
                             ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: (message['content']
-                                    as List<Map<String, dynamic>>)
-                                .map(
-                                  (segment) => Text(
-                                    segment['text'],
-                                    style: segment['style'],
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                  ),
-                );
-              },
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                      filled: true,
-                      fillColor: Colors.grey[50],
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(999),
-                        borderSide: BorderSide.none,
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: 'Type a message...',
+                        filled: true,
+                        fillColor: Colors.grey[50],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(999),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Colors.white),
-                  onPressed: () => _sendMessage(_controller.text),
-                  padding: const EdgeInsets.all(12),
-                  constraints: const BoxConstraints(
-                    minWidth: 48,
-                    minHeight: 48,
+                  const SizedBox(width: 8),
+                  IconButton(
+                    icon: const Icon(Icons.send, color: Colors.white),
+                    onPressed: () => _sendMessage(_controller.text),
+                    padding: const EdgeInsets.all(12),
+                    constraints: const BoxConstraints(
+                      minWidth: 48,
+                      minHeight: 48,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -350,8 +355,8 @@ class PromptCard extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: 14,
-            fontWeight: FontWeight.w600, // Жирный текст
-            color: Theme.of(context).colorScheme.primary, // Цвет #445CAA
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),

@@ -1,7 +1,7 @@
 import 'package:bloom/config/navigation/app_route_base.dart';
 import 'package:bloom/config/theme/theme.dart';
 import 'package:bloom/core/di/inject.dart';
-import 'package:bloom/generated/l10n.dart';
+import 'package:bloom/domain/use_case/theme/generated/l10n.dart';
 import 'package:bloom/presentation/bloc/register/register_bloc.dart';
 import 'package:bloom/presentation/bloc/theme_cubit/theme_cubit.dart';
 import 'package:flutter/material.dart';

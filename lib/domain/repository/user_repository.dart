@@ -4,9 +4,6 @@ import 'package:bloom/domain/entity/user/user_response_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class UserRepository {
-  Future<Either<HandledException, UserRequestEntity>> request(
-    UserRequestEntity request,
-  );
-
-// Future<Either<Failure, AuthResponseEntity>> authenticate(AuthRequestEntity request);
+  Future<Either<HandledException, UserResponseEntity>> getCurrentUser(
+      UserRequestEntity request);
 }

@@ -1,3 +1,4 @@
+import 'package:bloom/data/dto/requests/cycle_request/cycle_request.dart';
 import 'package:bloom/data/dto/responses/cycle_response/cycle_response.dart';
 import 'package:bloom/data/dto/responses/phases_response/phases_response.dart';
 import 'package:dio/dio.dart';
@@ -13,7 +14,7 @@ abstract class UserService {
   factory UserService(Dio dio) = _UserService;
 
   @GET('/api/user/me/')
-  Future<HttpResponse<UserResponse>> getCurrentUser(
+  Future<HttpResponse<UserResponse>> getCurrentUser(CycleRequest request
     // @Header('Authorization') String token,
   );
 

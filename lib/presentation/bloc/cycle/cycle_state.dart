@@ -2,14 +2,18 @@ part of 'cycle_bloc.dart';
 
 sealed class CycleState {}
 
-final class RegisterInitial extends CycleState {}
+final class CycleInitial extends CycleState {}
 
-final class RegisterInProgress extends CycleState {}
+final class CycleLoading extends CycleState {}
 
-final class RegisterSuccess extends CycleState {}
+final class CycleLoaded extends CycleState {
+  CycleLoaded({required this.cycleDetails});
 
-final class RegisterFailure extends CycleState {
-  RegisterFailure({required this.message});
+  final UserResponseEntity cycleDetails;
+}
+
+final class CycleError extends CycleState {
+  CycleError({required this.message});
 
   final String message;
 }
