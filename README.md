@@ -1,6 +1,6 @@
 # amamini_client_app
 
-Amamini admin app.
+Bloom admin app.
 
 ## Getting Started
 
@@ -19,6 +19,7 @@ The project:
 ## Quick start
 
 After cloning the repository you should:
+
 - create .env file in project root and save tokens as AMITY_API_KEY, AMITY_ADMIN_ACCESS_TOKEN
 - then you can get started by using the Flutter version specified in
   the [pubspec.yaml](pubspec.yaml) file and by running:
