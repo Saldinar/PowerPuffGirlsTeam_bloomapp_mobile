@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-// Enums and Extensions
 enum CyclePhase { menstrual, follicular, ovulation, luteal }
 
 enum EnergyLevel { low, medium, high }
@@ -73,7 +72,6 @@ extension EnergyLevelExtension on EnergyLevel {
   }
 }
 
-// Task Class
 class Task {
   final String title;
   final DateTime dateTime;
@@ -88,7 +86,6 @@ class Task {
   });
 }
 
-// CalendarScreen
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
 
@@ -157,7 +154,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void calculateCurrentPhase() {
-    final daysSinceCycleStart = _currentDay.difference(cycleStartDate).inDays % cycleLength;
+    final daysSinceCycleStart =
+        _currentDay.difference(cycleStartDate).inDays % cycleLength;
 
     if (daysSinceCycleStart < periodLength) {
       currentPhase = CyclePhase.menstrual;
@@ -181,7 +179,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   CyclePhase getPhaseForDay(DateTime day) {
-    final daysSinceCycleStart = day.difference(cycleStartDate).inDays % cycleLength;
+    final daysSinceCycleStart =
+        day.difference(cycleStartDate).inDays % cycleLength;
 
     if (daysSinceCycleStart < periodLength) {
       return CyclePhase.menstrual;
@@ -197,7 +196,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   List<Task> getTasksForDay(DateTime day) {
     return tasks
         .where(
-          (task) => task.dateTime.year == day.year && task.dateTime.month == day.month && task.dateTime.day == day.day,
+          (task) =>
+              task.dateTime.year == day.year &&
+              task.dateTime.month == day.month &&
+              task.dateTime.day == day.day,
         )
         .toList();
   }
@@ -533,17 +535,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
       isScrollControlled: true,
       useSafeArea: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => PhaseInfoModal(phase: currentPhase, phaseDay: currentPhaseDay),
+      builder: (context) =>
+          PhaseInfoModal(phase: currentPhase, phaseDay: currentPhaseDay),
     );
   }
 }
 
-// TaskCard Widget
 class TaskCard extends StatelessWidget {
   final Task task;
   final VoidCallback onTap;
 
-  const TaskCard({Key? key, required this.task, required this.onTap}) : super(key: key);
+  const TaskCard({Key? key, required this.task, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -644,7 +647,6 @@ class TaskCard extends StatelessWidget {
   }
 }
 
-// AddTaskModal
 class AddTaskModal extends StatefulWidget {
   final DateTime selectedDate;
   final CyclePhase currentPhase;
@@ -674,7 +676,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
   void initState() {
     super.initState();
     _selectedDate = widget.taskToEdit?.dateTime ?? widget.selectedDate;
-    _selectedTime = widget.taskToEdit != null ? TimeOfDay.fromDateTime(widget.taskToEdit!.dateTime) : TimeOfDay.now();
+    _selectedTime = widget.taskToEdit != null
+        ? TimeOfDay.fromDateTime(widget.taskToEdit!.dateTime)
+        : TimeOfDay.now();
     _taskNameController.text = widget.taskToEdit?.title ?? '';
     _selectedEnergy = widget.taskToEdit?.energyLevel ?? EnergyLevel.high;
   }
@@ -922,10 +926,14 @@ class _AddTaskModalState extends State<AddTaskModal> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey.shade200,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.grey.shade200,
             ),
             borderRadius: BorderRadius.circular(8),
-            color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                : Colors.transparent,
           ),
           child: Center(
             child: Text(
@@ -933,7 +941,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey.shade500,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey.shade500,
               ),
             ),
           ),
@@ -972,7 +982,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
       case CyclePhase.menstrual:
         bgColor = const Color(0xFFFFB6C1).withOpacity(0.1);
         title = 'Menstrual Phase Tip';
-        tip = 'During your period, energy levels can be lower. If a run feels too much, switch it up: \n '
+        tip =
+            'During your period, energy levels can be lower. If a run feels too much, switch it up: \n '
             '🧘 ✨ Try gentle yoga, pilates, or a walk instead. They ease cramps and boost your mood without overloading your body.\n'
             '🥗 Period nutrition tips:\n'
             '🍃 — Eat more iron-rich foods (like spinach & apples)\n'
@@ -982,17 +993,20 @@ class _AddTaskModalState extends State<AddTaskModal> {
       case CyclePhase.follicular:
         bgColor = const Color(0xFFADD8E6).withOpacity(0.1);
         title = 'Follicular Phase Tip';
-        tip = 'Your energy is increasing! This is a great time for planning, starting new projects, and socializing.';
+        tip =
+            'Your energy is increasing! This is a great time for planning, starting new projects, and socializing.';
         break;
       case CyclePhase.ovulation:
         bgColor = const Color(0xFFDDA0DD).withOpacity(0.1);
         title = 'Ovulation Phase Tip';
-        tip = 'Your energy and focus are at their peak. Tackle challenging tasks and important meetings now.';
+        tip =
+            'Your energy and focus are at their peak. Tackle challenging tasks and important meetings now.';
         break;
       case CyclePhase.luteal:
         bgColor = const Color(0xFFFFDAB9).withOpacity(0.1);
         title = 'Luteal Phase Tip';
-        tip = 'As energy begins to decrease, focus on completing tasks and preparation. Listen to your body\'s needs.';
+        tip =
+            'As energy begins to decrease, focus on completing tasks and preparation. Listen to your body\'s needs.';
         break;
     }
 
@@ -1221,12 +1235,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
   }
 }
 
-// PhaseInfoModal
 class PhaseInfoModal extends StatelessWidget {
   final CyclePhase phase;
   final int phaseDay;
 
-  const PhaseInfoModal({Key? key, required this.phase, required this.phaseDay}) : super(key: key);
+  const PhaseInfoModal({Key? key, required this.phase, required this.phaseDay})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

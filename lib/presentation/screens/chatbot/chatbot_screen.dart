@@ -162,7 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(
-                    'assets/images/bloomlogo.png',
+                    'assets/images/main/bloomlogo.png',
                     height: 40,
                     width: 40,
                     fit: BoxFit.contain,
@@ -186,7 +186,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   CircleAvatar(
                     radius: 50,
                     child: Image.asset(
-                      'assets/images/biggerlogo.png',
+                      'assets/images/main/biggerlogo.png',
                       height: 50,
                       width: 50,
                       fit: BoxFit.contain,

@@ -61,7 +61,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   CircleAvatar(
                     radius: 32,
                     backgroundImage: const AssetImage(
-                      'assets/images/onboarding/didi.jpg',
+                      'assets/images/main/didi.jpg',
                     ),
                     backgroundColor: Colors.grey[200],
                   ),

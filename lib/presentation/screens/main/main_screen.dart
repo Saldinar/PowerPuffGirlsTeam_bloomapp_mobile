@@ -33,6 +33,10 @@ class _MainScreenState extends State<MainScreen> {
             icon: Icon(Icons.menu),
             label: 'calendar',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'account',
+          ),
         ],
       ),
     );

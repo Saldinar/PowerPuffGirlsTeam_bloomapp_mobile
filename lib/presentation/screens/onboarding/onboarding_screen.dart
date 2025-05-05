@@ -285,7 +285,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             children: [
               OnboardingSlide(
                 image: Image.asset(
-                  'assets/images/onboarding/calendar_cycle_tracking.png',
+                  'assets/images/main/calendar_cycle_tracking.png',
                   fit: BoxFit.cover,
                 ),
                 title: 'Track your menstrual cycle',
@@ -295,7 +295,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               OnboardingSlide(
                 image: Image.asset(
-                  'assets/images/onboarding/cycle_planning_task.png',
+                  'assets/images/main/cycle_planning_task.png',
                   fit: BoxFit.cover,
                 ),
                 title: 'Energy-Based Planning',
@@ -306,7 +306,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               OnboardingSlide(
                 image: Image.asset(
-                  'assets/images/onboarding/habit_tracker_illustration.png',
+                  'assets/images/main/habit_tracker_illustration.png',
                   fit: BoxFit.cover,
                 ),
                 title: 'Build Healthy Habits',
