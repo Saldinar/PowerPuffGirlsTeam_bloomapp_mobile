@@ -27,4 +27,4 @@ flutter pub get && dart run build_runner build --delete-conflicting-outputs
 && dart run flutter_native_splash:create
 cd packages/app_localization && flutter pub get && dart run build_runner build --delete-conflicting-outputs && cd ../../
 
-Do not forget to set correct base url in lib/core/constants/network_constants.dart
+Do not forget to set correct base url in lib/core/constants/network_constants.dart# PowerPuffGirlsTeam_bloomapp_mobile
