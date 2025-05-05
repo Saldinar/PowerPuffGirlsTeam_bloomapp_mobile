@@ -11,7 +11,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable(as: UserRepository)
+@Singleton(as: UserRepository)
 class UserRepositoryImpl implements UserRepository {
   const UserRepositoryImpl(this._service);
 

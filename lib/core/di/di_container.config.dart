@@ -23,10 +23,13 @@ import '../../data/data_source/remote/cycle_data/cycle_data_source.dart'
 import '../../data/repository/auth_repository_impl.dart' as _i581;
 import '../../data/repository/theme_repository_impl.dart' as _i6;
 import '../../data/repository/user_local_repository_impl.dart' as _i788;
+import '../../data/repository/user_repository_impl.dart' as _i568;
 import '../../domain/repository/auth_repository.dart' as _i614;
 import '../../domain/repository/theme_repository.dart' as _i490;
 import '../../domain/repository/user_local_repository.dart' as _i121;
+import '../../domain/repository/user_repository.dart' as _i566;
 import '../../domain/use_case/auth/auth_use_case.dart' as _i759;
+import '../../domain/use_case/cycle/cycle_phases_case.dart' as _i159;
 import '../../domain/use_case/theme/theme_use_case.dart' as _i301;
 import '../../domain/use_case/user_local_use_case/user_local_use_case.dart'
     as _i691;
@@ -66,8 +69,6 @@ extension GetItInjectableX on _i174.GetIt {
               await getAsync<_i558.FlutterSecureStorage>(),
               gh<_i460.SharedPreferences>(),
             ));
-    gh.factory<_i314.UserService>(
-        () => _i314.UserService(gh<_i361.Dio>(instanceName: 'Authorized')));
     gh.factory<_i759.RegisterUseCase>(
         () => _i759.RegisterUseCase(gh<_i614.AuthRepository>()));
     gh.singleton<_i490.ThemeRepository>(() => _i6.ThemeRepositoryImpl(
@@ -81,6 +82,12 @@ extension GetItInjectableX on _i174.GetIt {
         .getAuthorizedDioClient(await getAsync<_i121.UserLocalRepository>()));
     gh.singleton<_i301.ThemeUseCase>(
         () => _i301.ThemeUseCase(repository: gh<_i490.ThemeRepository>()));
+    gh.singletonAsync<_i314.UserService>(
+        () async => _i314.UserService(await getAsync<_i361.Dio>()));
+    gh.singletonAsync<_i566.UserRepository>(() async =>
+        _i568.UserRepositoryImpl(await getAsync<_i314.UserService>()));
+    gh.singletonAsync<_i159.GetCycleDetailsUseCase>(() async =>
+        _i159.GetCycleDetailsUseCase(await getAsync<_i566.UserRepository>()));
     return this;
   }
 }

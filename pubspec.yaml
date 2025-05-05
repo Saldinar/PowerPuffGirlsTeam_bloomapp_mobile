@@ -17,8 +17,8 @@ dependencies:
   flutter_bloc: ^8.1.6
 
   # Dependency injection
-  get_it: ^7.6.7
-  injectable: ^2.1.2
+  get_it: ^7.7.0
+  injectable: ^2.4.4
 
   # Navigation
   go_router: ^14.1.4
@@ -71,10 +71,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-assets:
-  - assets/fonts/
-  - assets/images/onboarding
-  - assets/svg/
-  -
+  assets:
+    - assets/fonts/
+    - assets/images/
+    - assets/images/onboarding/
+    - assets/svg/
+
 flutter_intl:
   enabled: true

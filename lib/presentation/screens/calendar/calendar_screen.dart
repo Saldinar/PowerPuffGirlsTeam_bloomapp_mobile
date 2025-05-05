@@ -1,6 +1,9 @@
+import 'package:bloom/domain/entity/user/user_request_entity.dart';
+import 'package:bloom/presentation/bloc/cycle/cycle_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 // Enums and Extensions
 enum CyclePhase { menstrual, follicular, ovulation, luteal }
@@ -142,11 +145,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
     ];
 
     calculateCurrentPhase();
+
+    // TODO(someone): we need to know the cycle length and period length before colling this event
+    // final request = UserRequestEntity(
+    //   age: 25,
+    //   cycleLength: cycleLength,
+    //   periodLength: periodLength,
+    //   lastPeriodDate: '',
+    // );
+    // context.read<CycleBloc>().add(FetchCycleDetails(request: request));
   }
 
   void calculateCurrentPhase() {
-    final daysSinceCycleStart =
-        _currentDay.difference(cycleStartDate).inDays % cycleLength;
+    final daysSinceCycleStart = _currentDay.difference(cycleStartDate).inDays % cycleLength;
 
     if (daysSinceCycleStart < periodLength) {
       currentPhase = CyclePhase.menstrual;
@@ -170,8 +181,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   CyclePhase getPhaseForDay(DateTime day) {
-    final daysSinceCycleStart =
-        day.difference(cycleStartDate).inDays % cycleLength;
+    final daysSinceCycleStart = day.difference(cycleStartDate).inDays % cycleLength;
 
     if (daysSinceCycleStart < periodLength) {
       return CyclePhase.menstrual;
@@ -187,10 +197,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   List<Task> getTasksForDay(DateTime day) {
     return tasks
         .where(
-          (task) =>
-              task.dateTime.year == day.year &&
-              task.dateTime.month == day.month &&
-              task.dateTime.day == day.day,
+          (task) => task.dateTime.year == day.year && task.dateTime.month == day.month && task.dateTime.day == day.day,
         )
         .toList();
   }
@@ -498,6 +505,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
       builder: (context) => AddTaskModal(
         selectedDate: _selectedDay,
@@ -523,9 +531,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
-      builder: (context) =>
-          PhaseInfoModal(phase: currentPhase, phaseDay: currentPhaseDay),
+      builder: (context) => PhaseInfoModal(phase: currentPhase, phaseDay: currentPhaseDay),
     );
   }
 }
@@ -535,8 +543,7 @@ class TaskCard extends StatelessWidget {
   final Task task;
   final VoidCallback onTap;
 
-  const TaskCard({Key? key, required this.task, required this.onTap})
-      : super(key: key);
+  const TaskCard({Key? key, required this.task, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -667,9 +674,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
   void initState() {
     super.initState();
     _selectedDate = widget.taskToEdit?.dateTime ?? widget.selectedDate;
-    _selectedTime = widget.taskToEdit != null
-        ? TimeOfDay.fromDateTime(widget.taskToEdit!.dateTime)
-        : TimeOfDay.now();
+    _selectedTime = widget.taskToEdit != null ? TimeOfDay.fromDateTime(widget.taskToEdit!.dateTime) : TimeOfDay.now();
     _taskNameController.text = widget.taskToEdit?.title ?? '';
     _selectedEnergy = widget.taskToEdit?.energyLevel ?? EnergyLevel.high;
   }
@@ -691,18 +696,28 @@ class _AddTaskModalState extends State<AddTaskModal> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 24),
             _buildHeader(),
             const SizedBox(height: 16),
-            _buildForm(),
-            const SizedBox(height: 16),
-            _buildPhaseTip(),
-            const SizedBox(height: 16),
-            _buildSaveButton(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildForm(),
+                    const SizedBox(height: 16),
+                    _buildPhaseTip(),
+                    const SizedBox(height: 16),
+                    _buildSaveButton(),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -907,14 +922,10 @@ class _AddTaskModalState extends State<AddTaskModal> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey.shade200,
+              color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey.shade200,
             ),
             borderRadius: BorderRadius.circular(8),
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                : Colors.transparent,
+            color: isSelected ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.transparent,
           ),
           child: Center(
             child: Text(
@@ -922,9 +933,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey.shade500,
+                color: isSelected ? Theme.of(context).colorScheme.primary : Colors.grey.shade500,
               ),
             ),
           ),
@@ -963,8 +972,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
       case CyclePhase.menstrual:
         bgColor = const Color(0xFFFFB6C1).withOpacity(0.1);
         title = 'Menstrual Phase Tip';
-        tip =
-            'During your period, energy levels can be lower. If a run feels too much, switch it up: \n '
+        tip = 'During your period, energy levels can be lower. If a run feels too much, switch it up: \n '
             '🧘 ✨ Try gentle yoga, pilates, or a walk instead. They ease cramps and boost your mood without overloading your body.\n'
             '🥗 Period nutrition tips:\n'
             '🍃 — Eat more iron-rich foods (like spinach & apples)\n'
@@ -974,20 +982,17 @@ class _AddTaskModalState extends State<AddTaskModal> {
       case CyclePhase.follicular:
         bgColor = const Color(0xFFADD8E6).withOpacity(0.1);
         title = 'Follicular Phase Tip';
-        tip =
-            'Your energy is increasing! This is a great time for planning, starting new projects, and socializing.';
+        tip = 'Your energy is increasing! This is a great time for planning, starting new projects, and socializing.';
         break;
       case CyclePhase.ovulation:
         bgColor = const Color(0xFFDDA0DD).withOpacity(0.1);
         title = 'Ovulation Phase Tip';
-        tip =
-            'Your energy and focus are at their peak. Tackle challenging tasks and important meetings now.';
+        tip = 'Your energy and focus are at their peak. Tackle challenging tasks and important meetings now.';
         break;
       case CyclePhase.luteal:
         bgColor = const Color(0xFFFFDAB9).withOpacity(0.1);
         title = 'Luteal Phase Tip';
-        tip =
-            'As energy begins to decrease, focus on completing tasks and preparation. Listen to your body\'s needs.';
+        tip = 'As energy begins to decrease, focus on completing tasks and preparation. Listen to your body\'s needs.';
         break;
     }
 
@@ -1221,8 +1226,7 @@ class PhaseInfoModal extends StatelessWidget {
   final CyclePhase phase;
   final int phaseDay;
 
-  const PhaseInfoModal({Key? key, required this.phase, required this.phaseDay})
-      : super(key: key);
+  const PhaseInfoModal({Key? key, required this.phase, required this.phaseDay}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1234,28 +1238,36 @@ class PhaseInfoModal extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(context),
-              const SizedBox(height: 16),
-              _buildPhaseInfo(),
-              const SizedBox(height: 24),
-              _buildRecommendationsSection(context),
-              const SizedBox(height: 24),
-              _buildNutritionSection(context),
-              const SizedBox(height: 24),
-              _buildExerciseSection(context),
-              const SizedBox(height: 24),
-              _buildSelfCareSection(context),
-              const SizedBox(height: 24),
-              _buildCloseButton(context),
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            _buildHeader(context),
+            const SizedBox(height: 16),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildPhaseInfo(),
+                    const SizedBox(height: 24),
+                    _buildRecommendationsSection(context),
+                    const SizedBox(height: 24),
+                    _buildNutritionSection(context),
+                    const SizedBox(height: 24),
+                    _buildExerciseSection(context),
+                    const SizedBox(height: 24),
+                    _buildSelfCareSection(context),
+                    const SizedBox(height: 24),
+                    _buildCloseButton(context),
+                    const SizedBox(height: 24),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

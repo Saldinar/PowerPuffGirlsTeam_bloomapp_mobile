@@ -1,4 +1,4 @@
-package com.example.amamini_client
+package com.bloom
 
 import io.flutter.embedding.android.FlutterActivity
 

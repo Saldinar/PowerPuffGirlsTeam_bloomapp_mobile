@@ -40,17 +40,13 @@
 // }
 
 
-import 'package:bloom/core/resources/dio_handled_exception.dart';
 import 'package:bloom/domain/entity/user/user_request_entity.dart';
 import 'package:bloom/domain/entity/user/user_response_entity.dart';
 import 'package:bloom/domain/use_case/cycle/cycle_phases_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 
-part 'cycle_event.dart';
-part 'cycle_state.dart';
+part 'cycle_event.dart';part 'cycle_state.dart';
 
-@injectable
 class CycleBloc extends Bloc<CycleEvent, CycleState> {
   CycleBloc(
     this._getCycleDetails,
@@ -58,13 +54,15 @@ class CycleBloc extends Bloc<CycleEvent, CycleState> {
     on<FetchCycleDetails>(_fetchCycleDetails);
   }
 
-  final GetCycleDetails _getCycleDetails;
+  final GetCycleDetailsUseCase _getCycleDetails;
 
   Future<void> _fetchCycleDetails(
-      FetchCycleDetails event, Emitter<CycleState> emit) async {
+    FetchCycleDetails event,
+    Emitter<CycleState> emit,
+  ) async {
     emit(CycleLoading());
 
-    final result = await _getCycleDetails(event.request);
+    final result = await _getCycleDetails.call(event.request);
 
     result.fold(
       (left) {

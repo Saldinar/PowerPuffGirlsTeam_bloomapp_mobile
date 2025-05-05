@@ -5,9 +5,9 @@ import 'package:bloom/domain/repository/user_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
-class GetCycleDetails {
-  const GetCycleDetails(this._userRepository);
+@singleton
+class GetCycleDetailsUseCase {
+   GetCycleDetailsUseCase(this._userRepository);
 
   final UserRepository _userRepository;
 

@@ -8,18 +8,14 @@ import 'package:retrofit/retrofit.dart';
 part 'cycle_data_source.g.dart';
 
 @RestApi()
-@injectable
+@singleton
 abstract class UserService {
   @factoryMethod
   factory UserService(Dio dio) = _UserService;
 
   @GET('/api/user/me/')
-  Future<HttpResponse<UserResponse>> getCurrentUser(CycleRequest request
-    // @Header('Authorization') String token,
-  );
+  Future<HttpResponse<UserResponse>> getCurrentUser(CycleRequest request);
 
   @GET('/api/user/phases/')
-  Future<HttpResponse<PhasesResponse>> getPhases(
-    // @Header('Authorization') String token,
-  );
+  Future<HttpResponse<PhasesResponse>> getPhases();
 }

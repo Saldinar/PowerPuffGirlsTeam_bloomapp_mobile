@@ -2,6 +2,7 @@ import 'package:bloom/config/navigation/app_route_base.dart';
 import 'package:bloom/config/theme/theme.dart';
 import 'package:bloom/core/di/inject.dart';
 import 'package:bloom/domain/use_case/theme/generated/l10n.dart';
+import 'package:bloom/presentation/bloc/cycle/cycle_bloc.dart';
 import 'package:bloom/presentation/bloc/register/register_bloc.dart';
 import 'package:bloom/presentation/bloc/theme_cubit/theme_cubit.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,12 @@ class _BloomAppState extends State<BloomApp> {
           create: (context) => RegisterBloc(inject(), inject()),
         ),
         BlocProvider(create: (context) => ThemeCubit(inject())),
+        BlocProvider(create: (context) => CycleBloc(inject())),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
           return MaterialApp.router(
-            theme: state.isDark ? _themeData.darkTheme : _themeData.lightTheme,
+            theme: _themeData.lightTheme,
             routerConfig: router,
             debugShowCheckedModeBanner: false,
             supportedLocales: S.delegate.supportedLocales,
