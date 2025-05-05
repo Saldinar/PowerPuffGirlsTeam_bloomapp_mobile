@@ -1,4 +1,4 @@
-# amamini_client_app
+# bloom_app
 
 Bloom admin app.
 
