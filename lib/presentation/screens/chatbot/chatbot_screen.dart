@@ -11,7 +11,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
 
-  // Обработка отправки сообщения
   void _sendMessage(String messageText) {
     if (messageText.isNotEmpty) {
       setState(() {
@@ -25,7 +24,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Генерация ответа AI
   List<Map<String, dynamic>> _generateResponse(String prompt) {
     switch (prompt.toLowerCase()) {
       case 'which phase am i in? 🌸':
@@ -139,7 +137,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  // Обработка нажатия на промпт
   void _handlePrompt(String promptText) {
     _sendMessage(promptText);
   }
@@ -186,11 +183,10 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  // Замена изображения на заглушку
                   CircleAvatar(
                     radius: 50,
                     child: Image.asset(
-                      'assets/images/onboarding/biggerlogo.png',
+                      'assets/images/biggerlogo.png',
                       height: 50,
                       width: 50,
                       fit: BoxFit.contain,
@@ -330,7 +326,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-// PromptCard Widget
 class PromptCard extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
